@@ -1,6 +1,4 @@
-﻿using csharp_middlewares.Services;
-
-namespace csharp_middlewares.Middlewares
+﻿namespace csharp_middlewares.Middlewares
 {
     public class RequestLoggingMiddleware // Conventional Middleware
     {
