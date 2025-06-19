@@ -1,21 +1,20 @@
-﻿namespace csharp_middlewares.Middlewares
+﻿namespace csharp_middlewares.Middlewares;
+
+public class FactoryBasedMiddleware : IMiddleware
 {
-    public class FactoryBasedMiddleware : IMiddleware
+    private readonly ILogger<FactoryBasedMiddleware> _logger;
+
+    public FactoryBasedMiddleware(ILogger<FactoryBasedMiddleware> logger)
     {
-        private readonly ILogger<FactoryBasedMiddleware> _logger;
+        _logger = logger;
+    }
 
-        public FactoryBasedMiddleware(ILogger<FactoryBasedMiddleware> logger)
-        {
-            _logger = logger;
-        }
+    public async Task InvokeAsync(HttpContext context, RequestDelegate next)
+    {
+        _logger.LogInformation("Before request");
 
-        public async Task InvokeAsync(HttpContext context, RequestDelegate next)
-        {
-            _logger.LogInformation("Before request");
+        await next(context);
 
-            await next(context);
-
-            _logger.LogInformation("After request");
-        }
+        _logger.LogInformation("After request");
     }
 }
