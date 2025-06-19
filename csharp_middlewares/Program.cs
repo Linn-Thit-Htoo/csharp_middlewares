@@ -29,20 +29,22 @@ app.UseMiddleware<FactoryBasedMiddleware>();
 app.UseMiddleware<RequestLoggingMiddleware>();
 
 // works when http requests hit (Inline middleware)
-app.Use(async (context, next) =>
-{
-    Console.WriteLine("Before next middleware");
-
-    if (!context.User!.Identity!.IsAuthenticated)
+app.Use(
+    async (context, next) =>
     {
-        Console.WriteLine("You are not authenticated to perform actions.");
-        context.Response.StatusCode = 401;
-        return;
+        Console.WriteLine("Before next middleware");
+
+        if (!context.User!.Identity!.IsAuthenticated)
+        {
+            Console.WriteLine("You are not authenticated to perform actions.");
+            context.Response.StatusCode = 401;
+            return;
+        }
+
+        await next();
+
+        Console.WriteLine("After next middleware");
     }
-
-    await next();
-
-    Console.WriteLine("After next middleware");
-});
+);
 
 app.Run();
