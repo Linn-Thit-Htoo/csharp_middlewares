@@ -16,10 +16,17 @@ public class RequestLoggingMiddleware // Conventional Middleware
 
     public async Task InvokeAsync(HttpContext httpContext)
     {
-        _logger.LogInformation("Handling request: {Method} {Path}", httpContext.Request.Method, httpContext.Request.Path);
-        
+        _logger.LogInformation(
+            "Handling request: {Method} {Path}",
+            httpContext.Request.Method,
+            httpContext.Request.Path
+        );
+
         await _next(httpContext);
 
-        _logger.LogInformation("Finished handling request. Response status code: {StatusCode}", httpContext.Response.StatusCode);
+        _logger.LogInformation(
+            "Finished handling request. Response status code: {StatusCode}",
+            httpContext.Response.StatusCode
+        );
     }
 }
